@@ -295,7 +295,18 @@ var clients = [
   }
 ];
 
+var arr = []
+
 for (var i = 0; i < clients.length; i ++) {
-	console.log(clients[i].offices);
-}
-//console.log(clients[1]);
+	//console.log(clients[i].offices);
+	arr.push(clients[i].offices)
+	}
+
+	console.log(arr);
+var arr2 = []
+for (var i=0; i < arr.length; i ++) {
+	console.log(arr[i].coordinates);
+	//arr2.push(arr[i].location);
+
+//}
+//console.log(arr2);
