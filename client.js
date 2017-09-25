@@ -1,7 +1,4 @@
-console.log(5+6);
-
-var clients = [
-  {
+ {
     "id": 1,
     "urlName": "balance-at-work",
     "organization": "Balance at Work",
@@ -295,18 +292,91 @@ var clients = [
   }
 ];
 
-var arr = []
+ // creates distance array to save distances after calculated
+    var distance = [];
+    var findClientDistance = function(){
 
-for (var i = 0; i < clients.length; i ++) {
-	//console.log(clients[i].offices);
-	arr.push(clients[i].offices)
-	}
+      
+      
 
-	console.log(arr);
-var arr2 = []
-for (var i=0; i < arr.length; i ++) {
-	console.log(arr[i].coordinates);
-	//arr2.push(arr[i].location);
 
-//}
-//console.log(arr2);
+      for (var i = 0; i < clients.length; i ++) {
+        //saves coordinates as a variable
+        var coo =(clients[i].offices[0].coordinates) ;
+        // separates coordinates
+        var split_coo= coo.split(',');
+        //saves lat and lon as separate variables
+        var coord1 = parseFloat(split_coo[0]);
+        var coord2 = parseFloat(split_coo[1]);
+
+        checkKm(coord1, coord2);
+      }
+      
+      
+    };
+
+
+
+    var checkKm = function(coord1, coord2) {
+      //lat1 and lon1 hardcoded in for the office coordinates
+      var lat1 = 51.515419;
+      var lon1 = -0.141099;
+      // saves coordinates as variable to put into the equation
+      var lat2 =  coord1;
+      var lon2 =  coord2;
+      
+      var R = 6371; // Radius of the earth in km
+      //change in lat
+      var dLat = deg2rad(lat1-lat2);  // deg2rad below
+      //change in lon
+      var dLon = deg2rad(lon1-lon2);
+
+      var a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+      var d = R * c; // Distance in km
+      //push distance into an array
+      distance.push(d);
+    };
+    // saves formula as variable to simplify math above
+    var deg2rad = function(deg) {
+      return (deg * (Math.PI/180));
+    };
+
+    findClientDistance();
+    //console.log(distance);
+    
+    var addresses = function(){
+   
+var smallest =
+    distance.filter(n => n < 100, distance);
+    console.log(smallest);
+
+// Get their indices
+var indices =
+    smallest.map(n => distance.indexOf(n), smallest);
+   //console.log(indices);
+
+var index = [];
+   for (var i = 0; i < indices.length; i ++){
+     index.push(indices[i] +1);
+     console.log(index);
+   }
+   var orgName = [];
+     for (var i = 0; i < clients.length; i ++){
+      for (var y = 0; y < index.length; y++){
+      if (clients[i].id == index[y]){
+        orgName.push(clients[i].organization);
+      }
+      }
+    }
+     
+   var org = orgName.sort();
+   console.log(org);
+};
+    
+    addresses();
+    
